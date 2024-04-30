@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from fastdtw import fastdtw
+import fastdtw
 from scipy.spatial.distance import euclidean
 
 def read_and_process(file_path):
