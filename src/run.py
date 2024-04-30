@@ -15,9 +15,9 @@ dtw_folder = "../caida_dtw"
 dtw_file = "../caida_dtw.csv"
 image_folder = "../caida_dtw_image"
 
-flow_raw.process(raw_file, raw_flow_folder)
-flow_syn.process(syn_file, syn_flow_folder)
-timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, '20ms', 500, 100)
-timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, '20ms', 500, 100)
+# flow_raw.process(raw_file, raw_flow_folder)
+# flow_syn.process(syn_file, syn_flow_folder)
+# timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, '20ms', 500, 100)
+# timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, '20ms', 500, 100)
 dtw.process(syn_timeseries_folder, raw_timeseries_folder, dtw_folder, dtw_file)
 show_dtw.generate(dtw_file, dtw_folder, image_folder, 100)
