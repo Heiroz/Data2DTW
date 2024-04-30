@@ -18,6 +18,7 @@ def find_most_similar(synthetic, actual_files):
         actual_data = read_and_process(actual_file)
         if not synthetic.empty and not actual_data.empty:
             distance, path = fastdtw(synthetic[['time', 'flow']], actual_data[['time', 'flow']], dist=euclidean)
+            distance = distance / max(len(synthetic), len(actual_data))
             if distance < best_distance:
                 best_distance = distance
                 best_match = actual_file
