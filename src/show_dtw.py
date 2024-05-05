@@ -29,7 +29,7 @@ def generate(data_csv_path, base_path, output_folder, sample_num):
             plt.ylabel('Bytes')
             plt.title(f"Time Series Data for {synthetic_filename}")
             plt.legend()
-            plt.grid(True)
+            plt.grid(False)
             
             graph_filename = f"Comparison_{index}.png"
             plt.savefig(os.path.join(output_folder, graph_filename))
