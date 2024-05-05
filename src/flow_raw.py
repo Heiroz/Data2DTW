@@ -25,7 +25,7 @@ def process(pcap_file, output_dir):
             flows[flow_id].append(packet)
 
     for flow_id, packets in flows.items():
-        if len(packets) > 100:
+        if len(packets) > 1:
             sorted_packets = sorted(packets, key=lambda x: x.time)
             filename = os.path.join(output_dir, f"{flow_id.replace(':', '_').replace('|', '_').replace('/', '_').replace(' ', '_')}.pcap")
             wrpcap(filename, sorted_packets)
