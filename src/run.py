@@ -16,7 +16,7 @@ image_folder = "../video_dtw_image"
 
 # flow_raw.process(raw_file, raw_flow_folder)
 # flow_syn.process(syn_file, syn_flow_folder)
-timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, '2000ms', 50000, 10)
-timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, '2000ms', 50000, 10)
-dtw.process(syn_timeseries_folder, raw_timeseries_folder, dtw_folder, dtw_file)
-show_dtw.generate(dtw_file, dtw_folder, image_folder, 10)
+# timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, '2000ms', 50000, 100)
+# timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, '2000ms', 50000, 100)
+# dtw.process(syn_timeseries_folder, raw_timeseries_folder, dtw_folder, dtw_file)
+show_dtw.generate(dtw_file, dtw_folder, image_folder, 40)
