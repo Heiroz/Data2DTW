@@ -19,7 +19,7 @@ def process(csv_path, output_folder):
     grouped = data.groupby(required_columns)
     
     for name, group in grouped:
-        if len(group) > 1:
+        if len(group) > 20:
             group_sorted = group.sort_values(by='time')
             filename = f"{'_'.join(map(str, name))}.csv"
             filepath = os.path.join(output_folder, filename)
