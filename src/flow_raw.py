@@ -1,7 +1,7 @@
 from scapy.all import rdpcap, wrpcap, IP, TCP, UDP
 import os
 
-def process(pcap_file, output_dir):
+def process(pcap_file, output_dir, packet_len):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
@@ -25,7 +25,7 @@ def process(pcap_file, output_dir):
             flows[flow_id].append(packet)
 
     for flow_id, packets in flows.items():
-        if len(packets) > 20:
+        if len(packets) > packet_len:
             sorted_packets = sorted(packets, key=lambda x: x.time)
             filename = os.path.join(output_dir, f"{flow_id.replace(':', '_').replace('|', '_').replace('/', '_').replace(' ', '_')}.pcap")
             wrpcap(filename, sorted_packets)
