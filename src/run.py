@@ -10,9 +10,9 @@ raw_flow_folder = "../data_flow/video_raw"
 syn_flow_folder = "../data_flow/video_syn"
 raw_timeseries_folder = "../data_timeseries/video_raw"
 syn_timeseries_folder = "../data_timeseries/video_syn"
-dtw_folder = "../video_dtw"
-dtw_file = "../video_dtw.csv"
-image_folder = "../video_dtw_image"
+dtw_folder = "../dtw_file/video_dtw"
+dtw_file = "../dtw/video_dtw.csv"
+image_folder = "../image/video_dtw_image"
 
 flow_raw.process(raw_file, raw_flow_folder)
 flow_syn.process(syn_file, syn_flow_folder)
