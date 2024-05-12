@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from datetime import datetime
 
-def process(csv_path, output_folder):
+def process(csv_path, output_folder, packet_len):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
@@ -19,7 +19,7 @@ def process(csv_path, output_folder):
     grouped = data.groupby(required_columns)
     
     for name, group in grouped:
-        if len(group) > 100:
+        if len(group) > packet_len:
             group_sorted = group.sort_values(by='time')
             filename = f"{'_'.join(map(str, name))}.csv"
             filepath = os.path.join(output_folder, filename)
