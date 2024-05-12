@@ -22,7 +22,7 @@ def generate(data_csv_path, base_path, output_folder, sample_num):
         if os.path.exists(synthetic_file_path):
             synthetic_data = pd.read_csv(synthetic_file_path)
 
-            plt.figure(figsize=(20, 6))
+            plt.figure(figsize=(20, 10))
             plt.plot(synthetic_data['time'], synthetic_data['flow_synthetic'], label='Synthetic Flow', marker='o', linestyle='-')
             plt.plot(synthetic_data['time'], synthetic_data['flow_actual'], label='Actual Flow', marker='o', linestyle='-')
             plt.xlabel('Time(ms)')
