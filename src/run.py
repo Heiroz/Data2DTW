@@ -10,13 +10,13 @@ raw_flow_folder = "../data_flow/imc_dc_raw"
 syn_flow_folder = "../data_flow/imc_dc_syn"
 raw_timeseries_folder = "../data_timeseries/imc_dc_raw"
 syn_timeseries_folder = "../data_timeseries/imc_dc_syn"
-segment_length = '3s'
+segment_length = '10s'
 resample_interval = '100ms'
-non_zero_num = 5
+non_zero_num = 20
 dtw_folder = "../dtw_file/imc_dc_dtw"
 dtw_file = "../dtw/imc_dc_dtw.csv"
 image_folder = "../image/imc_dc_dtw_image"
-min_packet_len = 30
+min_packet_len = 100
 image_num = 100
 flow_raw.process(raw_file, raw_flow_folder, min_packet_len)
 flow_syn.process(syn_file, syn_flow_folder, min_packet_len)
