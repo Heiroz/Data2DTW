@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-def generate_time_series(input_folder, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=5):
+def generate_time_series(input_folder, output_folder, segment_length, resample_interval, non_zero_num):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
@@ -51,5 +51,5 @@ def generate_time_series(input_folder, output_folder, segment_length='3s', resam
                     segment.to_csv(segment_file, header=True, index_label='ElapsedTime')
                     series_counter += 1
 
-def process(input_folder, output_folder):
-    generate_time_series(input_folder, output_folder)
+def process(input_folder, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=5):
+    generate_time_series(input_folder, output_folder, segment_length, resample_interval, non_zero_num)

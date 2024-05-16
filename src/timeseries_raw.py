@@ -2,8 +2,8 @@ from scapy.all import rdpcap, IP
 import pandas as pd
 import os
 from datetime import datetime, timezone
-
-def generate_time_series(pcap_file, output_folder, series_counter, segment_length='3s', resample_interval='100ms', non_zero_num=5):
+counter = 1
+def generate_time_series(pcap_file, output_folder, series_counter, segment_length, resample_interval, non_zero_num):
     packets = rdpcap(pcap_file)
     time_stamps = []
     base_time = None
@@ -43,7 +43,7 @@ def generate_time_series(pcap_file, output_folder, series_counter, segment_lengt
             series_counter += 1
     return series_counter
 
-def process(folder_path, output_folder):
+def process(folder_path, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=5):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
@@ -51,5 +51,5 @@ def process(folder_path, output_folder):
     for filename in os.listdir(folder_path):
         if filename.endswith(".pcap"):
             pcap_path = os.path.join(folder_path, filename)
-            series_counter = generate_time_series(pcap_path, output_folder, series_counter)
+            series_counter = generate_time_series(pcap_path, output_folder, series_counter, segment_length, resample_interval, non_zero_num)
 
