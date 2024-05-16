@@ -3,7 +3,7 @@ import pandas as pd
 import os
 from datetime import datetime, timezone
 
-def generate_time_series(pcap_file, output_folder, series_counter, segment_length='3s', resample_interval='100ms', non_zero_num=10):
+def generate_time_series(pcap_file, output_folder, series_counter, segment_length='3s', resample_interval='100ms', non_zero_num=5):
     packets = rdpcap(pcap_file)
     time_stamps = []
     base_time = None

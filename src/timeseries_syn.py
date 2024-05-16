@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-def generate_time_series(input_folder, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=10):
+def generate_time_series(input_folder, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=5):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     
