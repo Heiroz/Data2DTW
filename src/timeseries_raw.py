@@ -2,8 +2,8 @@ from scapy.all import rdpcap, IP
 import pandas as pd
 import os
 from datetime import datetime, timezone
-
-def generate_time_series(pcap_file, output_file, resample_interval='50ms', max_len = 120, min_lens = 110):
+counter = 1
+def generate_time_series(pcap_file, output_folder, series_counter, segment_length, resample_interval, non_zero_num):
     packets = rdpcap(pcap_file)
     time_stamps = []
     base_time = None
@@ -13,31 +13,43 @@ def generate_time_series(pcap_file, output_file, resample_interval='50ms', max_l
             packet_time = datetime.fromtimestamp(float(packet.time), timezone.utc)
             if base_time is None:
                 base_time = packet_time
-            elapsed_time = (packet_time - base_time).total_seconds() * 1000
+            elapsed_time = (packet_time - base_time).total_seconds() * 1000  # milliseconds
             packet_size = len(packet)
             time_stamps.append((elapsed_time, packet_size))
 
     df = pd.DataFrame(time_stamps, columns=['ElapsedTime', 'PacketSize'])
     
-    resample_interval_ms = pd.to_timedelta(resample_interval).total_seconds() * 1000
-    df['ElapsedTime'] = (df['ElapsedTime'] // resample_interval_ms * resample_interval_ms).astype(int)
+    # Resample and sum up the packet sizes for each interval
+    df.set_index(pd.to_timedelta(df['ElapsedTime'], unit='ms'), inplace=True)
+    df_resampled = df['PacketSize'].resample(resample_interval).sum().fillna(0)
     
-    df_grouped = df.groupby('ElapsedTime').sum()
+    # Convert the index to milliseconds and adjust from zero
+    df_resampled.index = (df_resampled.index.total_seconds() * 1000).astype(int)
+    df_resampled.index -= df_resampled.index.min()
 
-    if not df_grouped.empty:
-        max_time = df_grouped.index.max()
-        complete_index = range(0, int(max_time + resample_interval_ms), int(resample_interval_ms))
-        df_grouped = df_grouped.reindex(complete_index, fill_value=0)
+    # Segment the data into 3-second chunks
+    segment_length_ms = pd.to_timedelta(segment_length).total_seconds() * 1000
+    num_segments = int(df_resampled.index.max() // segment_length_ms) + 1
 
-    if min_lens < len(df_grouped) < max_len:
-        df_grouped.to_csv(output_file)
+    for i in range(num_segments):
+        segment_start = i * segment_length_ms
+        segment_end = segment_start + segment_length_ms
+        segment = df_resampled[(df_resampled.index >= segment_start) & (df_resampled.index < segment_end)]
+        if not segment.empty:
+            segment.index = segment.index - segment.index.min()
+        if len(segment) - segment.isin([0]).sum() > non_zero_num:
+            segment_file = os.path.join(output_folder, f"timeseries_{series_counter}.csv")
+            segment.to_csv(segment_file, header=True)
+            series_counter += 1
+    return series_counter
 
-def process(folder_path, output_folder, resample_interval='50ms', max_len = 120, min_lens = 110):
+def process(folder_path, output_folder, segment_length='3s', resample_interval='100ms', non_zero_num=5):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
+    series_counter = 1
     for filename in os.listdir(folder_path):
         if filename.endswith(".pcap"):
             pcap_path = os.path.join(folder_path, filename)
-            output_file = os.path.join(output_folder, f"{filename[:-5]}_time_series.csv")
-            generate_time_series(pcap_path, output_file, resample_interval, max_len, min_lens)
+            series_counter = generate_time_series(pcap_path, output_folder, series_counter, segment_length, resample_interval, non_zero_num)
+
