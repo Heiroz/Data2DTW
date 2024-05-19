@@ -20,14 +20,7 @@ min_packet_len = 100
 image_num = 100
 flow_raw.process(raw_file, raw_flow_folder, min_packet_len)
 flow_syn.process(syn_file, syn_flow_folder, min_packet_len)
-<<<<<<< HEAD
-timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, interval, max_flow_len, min_flow_len)
-timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, interval, max_flow_len, min_flow_len)
-dtw.process(syn_timeseries_folder, raw_timeseries_folder, dtw_folder, dtw_file)
-show_dtw.generate(dtw_file, dtw_folder, image_folder, 14)
-=======
 timeseries_raw.process(raw_flow_folder, raw_timeseries_folder, segment_length, resample_interval, non_zero_num)
 timeseries_syn.process(syn_flow_folder, syn_timeseries_folder, segment_length, resample_interval, non_zero_num)
 my_dtw.process(syn_timeseries_folder, raw_timeseries_folder, dtw_folder, dtw_file)
 show_dtw.generate_images(dtw_folder, image_folder, image_num)
->>>>>>> e4a096630865c6029f82b96620ce10c10645efb8
